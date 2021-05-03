@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <script>
+    function go(){
+      //EnterキーならSubmit
+      if(window.event.keyCode==13)document.className.search_button();
+    }
+  </script>
+</head>
+
+<body>
+  <section class="search">
+    <form action=<%= request.path %>>
+      <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-multiline="false">
+      <i class="fas fa-search search_icon" aria-hidden="true"></i>
+      <input type="submit" class="search_button none">
+    </form>
+  </section>
+  <section class="result">
+    <table>
+      <tr class="head">
+        <th><p>Song</p></th>
+        <th><p>Artist</p></th>
+        <th><p>Album</p></th>
+        <th><p>Time</p></th>
+        <th><p>Add</p></th>
+      </tr>
+      <% if !@musics.empty? %>
+        <% @musics.each do |music| %>
+          <tr class="content">
+            <td class="song"><img src="<%= music["artworkUrl100"] %>"><p><%= music["trackName"] %></p></td>
+            <td><p><%= music["artistName"] %></p></td>
+            <td><p><%= music["collectionName"] %></p></td>
+            <td><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
+            <td>
+              <form method="POST" action=<%= request.path %> >
+                <input name="q" value=<%= params[:q] %> class="none">
+                <input name="trackId" value=<%= music["trackId"] %> class="none">
+                <input name="addId" class="none" value=<%= params[:addId] %>>
+                <input type="submit" value="+">
+              </form>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </section>
+</body>
+</html>

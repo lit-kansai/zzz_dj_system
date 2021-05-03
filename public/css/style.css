@@ -1,0 +1,106 @@
+html,
+body,
+p {
+	margin: 0px;
+	padding: 0px;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+body {
+	background-color: #232323;
+}
+
+section {
+	margin: 0 auto;
+	margin-bottom: 30px;
+	max-width: 1600px;
+}
+
+p {
+	font-size: 13px;
+	line-height: 16px;
+	text-align: left;
+}
+
+.none{
+  display: none;
+}
+
+/* 検索 */
+.search form {
+	position: relative;
+}
+
+.search input[type="text"] {
+	width: 100%;
+	height: 32px;
+	background-color: #1f1f1f;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	color: #e5e5e5;
+	line-height: 1.25;
+	font-weight: 400;
+	letter-spacing: 0;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin: 8px 0;
+	outline: none;
+	padding-left: 40px;
+}
+
+.search input[type="text"]:focus {
+	border-color: #ff8b22;
+}
+
+.search i {
+	position: absolute;
+	top: 8px;
+	left: 0;
+	padding: 9px 8px;
+}
+
+.search input[type="text"]:focus + i {
+	color: #ff8b22;
+}
+
+/* 結果のテーブル */
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+table tr {
+	height: 46px;
+	cursor: default;
+}
+
+table tr.content:nth-child(even) {
+	background-color: #323232;
+}
+
+table tr.content:hover {
+	background-color: #ff8b22;
+	border-radius: 4px;
+}
+
+table tr.head th p {
+	padding-left: 7px;
+	font-size: 12px;
+	line-height: 15px;
+	color: rgba(255, 255, 255, 0.55);
+}
+
+table tr td {
+	padding: 3px 0px 3px 7px;
+}
+
+table tr td img {
+	height: 40px;
+	padding: 3px 20px 3px 7px;
+}
+
+table tr td.song {
+	display: flex;
+	align-items: center;
+}
