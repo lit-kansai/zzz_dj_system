@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+</head>
+
+<body>
+  <header>
+    <h1>DJ <%= @team['mentor'] %></h1>
+    <p><%= @team['description'] %></p>
+  </header>
+
+  <section>
+    <h2>リクエスト曲一覧</h2>
+    <table>
+      <tr class="head">
+        <th><p>Song</p></th>
+        <th class="phone_off"><p>Artist</p></th>
+        <th class="phone_off"><p>Album</p></th>
+        <th class="phone_off"><p>Time</p></th>
+        <th class="phone_off"><p>Radio Name</p></th>
+        <th><p>Link</p></th>
+      </tr>
+      <% if !@team_musics.empty? %>
+        <% @team_musics.each_with_index do |music, index| %>
+          <tr class="content">
+            <td class="song">
+              <img src="<%= music["artworkUrl100"] %>">
+              <p><%= music["trackName"] %><br class="phone_on"><span class="phone_on"><%= music["artistName"] %></span></p>
+            </td>
+            <td class="phone_off"><p><%= music["artistName"] %></p></td>
+            <td class="phone_off"><p><%= music["collectionName"] %></p></td>
+            <td class="phone_off"><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
+            <td class="phone_off"><p><%= @team_music_names[index] %></p></td>
+            <td><a href="<%= music["trackViewUrl"] %>" target="_blank"><p>Link</p></a></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </section>
+  <section>
+    <h2>メッセージ一覧</h2>
+    <table>
+      <tr class="head">
+        <th><p>Radio Name</p></th>
+        <th><p>Message</p></th>
+      </tr>
+      <% if !@team_messages.empty? %>
+        <% @team_messages.each do |message| %>
+          <tr class="content">
+            <td><p><%= message["name"] %></p></td>
+            <td><p><%= message["content"] %></p></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </section>
+</body>
+</html>

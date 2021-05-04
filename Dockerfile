@@ -1,6 +1,8 @@
-FROM ruby:3.0.0
+FROM ruby:2.6.2
+
+ENV RUBYOPT -EUTF-8
 
 ADD . /app
 WORKDIR /app
 
-RUN bundle install -j4
+RUN gem install bundler && bundle install

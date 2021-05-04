@@ -2,8 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
   <title>Document</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <script type="text/javascript">
     function go(){
@@ -15,8 +16,8 @@
 
 <body>
   <header>
-    <h1>DJ がっしー</h1>
-    <p>大阪日曜Bスクール</p>
+    <h1>DJ <%= @team['mentor'] %></h1>
+    <p><%= @team['description'] %></p>
   </header>
   <% if @add_musics != nil %>
     <section class="add_list">
@@ -48,18 +49,21 @@
     <table>
       <tr class="head">
         <th><p>Song</p></th>
-        <th><p>Artist</p></th>
-        <th><p>Album</p></th>
-        <th><p>Time</p></th>
+        <th class="phone_off"><p>Artist</p></th>
+        <th class="phone_off"><p>Album</p></th>
+        <th class="phone_off"><p>Time</p></th>
         <th><p>Add</p></th>
       </tr>
       <% if !@musics.empty? %>
         <% @musics.each do |music| %>
           <tr class="content">
-            <td class="song"><img src="<%= music["artworkUrl100"] %>"><p><%= music["trackName"] %></p></td>
-            <td><p><%= music["artistName"] %></p></td>
-            <td><p><%= music["collectionName"] %></p></td>
-            <td><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
+            <td class="song">
+              <img src="<%= music["artworkUrl100"] %>">
+              <p><%= music["trackName"] %><br class="phone_on"><span class="phone_on"><%= music["artistName"] %></span></p>
+            </td>
+            <td class="phone_off"><p><%= music["artistName"] %></p></td>
+            <td class="phone_off"><p><%= music["collectionName"] %></p></td>
+            <td class="phone_off"><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
             <td>
               <% if params[:add_list] != nil && params[:add_list].include?(music["trackId"].to_s) %>
                 <form method="post" action="/music/temp/delete" >

@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
   <title>Document</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
@@ -9,8 +10,8 @@
 
 <body>
   <header>
-    <h1>DJ がっしー</h1>
-    <p>大阪日曜Bスクール</p>
+    <h1>DJ <%= @team['mentor'] %></h1>
+    <p><%= @team['description'] %></p>
   </header>
 
   <form method="post" action="/submit">
@@ -20,24 +21,27 @@
     </section>
     <section>
       <h2>お便り</h2>
-      <textarea type="text" name="comment" placeholder="お便りを書いてね！" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-multiline="false"></textarea>
+      <textarea type="text" name="message" placeholder="お便りを書いてね！" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-multiline="false"></textarea>
     </section>
     <section>
       <h2>リクエスト曲</h2>
       <table>
         <tr class="head">
           <th><p>Song</p></th>
-          <th><p>Artist</p></th>
-          <th><p>Album</p></th>
-          <th><p>Time</p></th>
+          <th class="phone_off"><p>Artist</p></th>
+          <th class="phone_off"><p>Album</p></th>
+          <th class="phone_off"><p>Time</p></th>
         </tr>
         <% if !@add_musics.empty? %>
           <% @add_musics.each do |music| %>
             <tr class="content">
-              <td class="song"><img src="<%= music["artworkUrl100"] %>"><p><%= music["trackName"] %></p></td>
-              <td><p><%= music["artistName"] %></p></td>
-              <td><p><%= music["collectionName"] %></p></td>
-              <td><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
+              <td class="song">
+                <img src="<%= music["artworkUrl100"] %>">
+                <p><%= music["trackName"] %><br class="phone_on"><span class="phone_on"><%= music["artistName"] %></span></p>
+              </td>
+              <td class="phone_off"><p><%= music["artistName"] %></p></td>
+              <td class="phone_off"><p><%= music["collectionName"] %></p></td>
+              <td class="phone_off"><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
             </tr>
           <% end %>
         <% end %>

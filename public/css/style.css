@@ -11,18 +11,24 @@ p {
 
 body {
 	background-color: #232323;
+	margin-bottom: 30px;
 }
 
 section {
 	margin: 0 auto;
 	margin-top: 30px;
 	max-width: 1600px;
+	padding: 0px 25px;
 }
 
 p {
 	font-size: 13px;
 	line-height: 16px;
 	text-align: left;
+}
+
+a {
+	text-decoration: none;
 }
 
 .none {
@@ -133,7 +139,6 @@ header h1 {
 }
 
 /* 結果のテーブル */
-
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -166,6 +171,7 @@ table tr td {
 }
 
 table tr td img {
+	width: 40px;
 	height: 40px;
 	padding: 3px 20px 3px 7px;
 }
@@ -173,6 +179,30 @@ table tr td img {
 table tr td.song {
 	display: flex;
 	align-items: center;
+}
+
+table .phone_on {
+	display: none;
+}
+
+table a p {
+	padding-right: 10px;
+}
+
+@media (max-width: 767px) {
+	table {
+		width: calc(100vw - 50px);
+	}
+	table .phone_on {
+		display: block;
+	}
+	table .phone_off {
+		display: none;
+	}
+	table .song span {
+		margin-top: 2px;
+		color: rgba(255, 255, 255, 0.55);
+	}
 }
 
 /* +ボタン */
