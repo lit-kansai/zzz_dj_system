@@ -44,7 +44,7 @@ end
 
 # 新しくチームを作成する
 get '/team/create' do
-  erb :admin_new
+  erb :admin_create
 end
 
 # メンバーが曲をリクエストする（検索）
