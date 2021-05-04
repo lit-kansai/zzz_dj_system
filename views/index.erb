@@ -5,7 +5,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-  <script>
+  <script type="text/javascript">
     function go(){
       //EnterキーならSubmit
       if(window.event.keyCode==13)document.className.search_button();
@@ -14,14 +14,37 @@
 </head>
 
 <body>
+  <header>
+    <h1>DJ がっしー</h1>
+    <p>大阪日曜Bスクール</p>
+  </header>
+  <% if @add_musics != nil %>
+    <section class="add_list">
+      <% @add_musics.each do |music| %>
+        <div class="content">
+          <img src="<%= music["artworkUrl100"] %>">
+          <div class="info">
+            <p><%= music["trackName"] %></p>
+            <p class="artistName"><%= music["artistName"] %></p>
+          </div>
+          <form method="post" action="/music/temp/delete" >
+            <input type="hidden" name="team_id" value=<%= params[:team_id] %>>
+            <input type="hidden" name="q" value=<%= params[:q] %>>
+            <input type="hidden" name="trackId" value=<%= music["trackId"] %>>
+            <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
+            <input type="submit" value="&#xf2ed" class="far">
+          </form>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
   <section class="search">
     <form action=<%= request.path %>>
       <input type="text" name="q" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-multiline="false">
       <i class="fas fa-search search_icon" aria-hidden="true"></i>
+      <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
       <input type="submit" class="search_button none">
     </form>
-  </section>
-  <section class="result">
     <table>
       <tr class="head">
         <th><p>Song</p></th>
@@ -38,17 +61,33 @@
             <td><p><%= music["collectionName"] %></p></td>
             <td><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
             <td>
-              <form method="POST" action=<%= request.path %> >
-                <input name="q" value=<%= params[:q] %> class="none">
-                <input name="trackId" value=<%= music["trackId"] %> class="none">
-                <input name="addId" class="none" value=<%= params[:addId] %>>
-                <input type="submit" value="+">
-              </form>
+              <% if params[:add_list] != nil && params[:add_list].include?(music["trackId"].to_s) %>
+                <form method="post" action="/music/temp/delete" >
+                  <input type="hidden" name="team_id" value=<%= params[:team_id] %>>
+                  <input type="hidden" name="q" value=<%= params[:q] %>>
+                  <input type="hidden" name="trackId" value=<%= music["trackId"] %>>
+                  <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
+                  <input type="submit" value="&#xf00c" class="fas">
+                </form>
+              <% else %>
+                <form method="post" action="/music/temp/add" >
+                  <input type="hidden" name="team_id" value=<%= params[:team_id]  %>>
+                  <input type="hidden" name="q" value=<%= params[:q] %>>
+                  <input type="hidden" name="trackId" value=<%= music["trackId"] %>>
+                  <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
+                  <input type="submit" value="&#xf067" class="fas">
+                </form>
+              <% end %>
             </td>
           </tr>
         <% end %>
       <% end %>
     </table>
   </section>
+  <form method="post" action="/confirm" class="next">
+    <input type="hidden" name="team_id" value=<%= params[:team_id]  %>>
+    <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
+    <input type="submit" value="&#xf1d8 送信" class="fas">
+  </form>
 </body>
 </html>

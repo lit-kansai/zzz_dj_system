@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+</head>
+
+<body>
+  <header>
+    <h1>DJ がっしー</h1>
+    <p>大阪日曜Bスクール</p>
+  </header>
+
+  <form method="post" action="/submit">
+    <section>
+      <h2>ラジオネーム</h2>
+      <input type="text" name="radio_name" placeholder="ラジオネーム" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-multiline="false">
+    </section>
+    <section>
+      <h2>お便り</h2>
+      <textarea type="text" name="comment" placeholder="お便りを書いてね！" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-multiline="false"></textarea>
+    </section>
+    <section>
+      <h2>リクエスト曲</h2>
+      <table>
+        <tr class="head">
+          <th><p>Song</p></th>
+          <th><p>Artist</p></th>
+          <th><p>Album</p></th>
+          <th><p>Time</p></th>
+        </tr>
+        <% if !@add_musics.empty? %>
+          <% @add_musics.each do |music| %>
+            <tr class="content">
+              <td class="song"><img src="<%= music["artworkUrl100"] %>"><p><%= music["trackName"] %></p></td>
+              <td><p><%= music["artistName"] %></p></td>
+              <td><p><%= music["collectionName"] %></p></td>
+              <td><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </section>
+    <section class="send">
+      <input type="hidden" name="team_id" value=<%= params[:team_id]  %>>
+      <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
+      <input type="submit" value="&#xf1d8 送信" class="fas">
+    </section>
+  </form>
+</body>
+</html>

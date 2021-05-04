@@ -1,5 +1,8 @@
 html,
 body,
+header,
+h1,
+h2,
 p {
 	margin: 0px;
 	padding: 0px;
@@ -12,7 +15,7 @@ body {
 
 section {
 	margin: 0 auto;
-	margin-bottom: 30px;
+	margin-top: 30px;
 	max-width: 1600px;
 }
 
@@ -22,16 +25,12 @@ p {
 	text-align: left;
 }
 
-.none{
-  display: none;
+.none {
+	display: none;
 }
 
-/* 検索 */
-.search form {
-	position: relative;
-}
-
-.search input[type="text"] {
+input[type="text"],
+textarea {
 	width: 100%;
 	height: 32px;
 	background-color: #1f1f1f;
@@ -42,13 +41,84 @@ p {
 	letter-spacing: 0;
 	border-radius: 4px;
 	box-sizing: border-box;
-	margin: 8px 0;
 	outline: none;
-	padding-left: 40px;
+	padding-left: 10px;
 }
 
-.search input[type="text"]:focus {
+textarea {
+	height: 100px;
+	padding: 10px;
+}
+
+input[type="text"]:focus,
+textarea:focus {
 	border-color: #ff8b22;
+}
+
+input[type="submit"] {
+	color: rgba(255, 255, 255, 0.55);
+	background-color: rgba(0, 0, 0, 0);
+	border: 0px;
+	cursor: pointer;
+	text-align: left;
+	padding: 0px;
+}
+
+/* ヘッダー */
+header {
+	width: 100vw;
+	height: 200px;
+	background-image: url("../img/dj.jpg");
+	background-position: center;
+	background-size: cover;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+header h1 {
+	color: #fff;
+}
+
+/* 追加済の曲 */
+.add_list {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 20px;
+}
+
+.add_list .content {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+	margin-right: 10px;
+	background-color: #323232;
+	padding: 6px 12px 6px 9px;
+	border-radius: 5px;
+}
+
+.add_list .content img {
+	height: 40px;
+	padding-right: 10px;
+}
+
+.add_list .content .info {
+	padding-right: 15px;
+}
+
+.add_list .content .artistName {
+	font-size: 12px;
+}
+
+/* 検索 */
+.search form {
+	position: relative;
+}
+
+.search input[type="text"] {
+	margin: 8px 0;
+	padding-left: 40px;
 }
 
 .search i {
@@ -81,7 +151,7 @@ table tr.content:nth-child(even) {
 
 table tr.content:hover {
 	background-color: #ff8b22;
-	border-radius: 4px;
+	border-radius: 5px;
 }
 
 table tr.head th p {
@@ -103,4 +173,41 @@ table tr td img {
 table tr td.song {
 	display: flex;
 	align-items: center;
+}
+
+/* +ボタン */
+.search input[type="submit"] {
+	width: 100%;
+	font-size: 20px;
+}
+
+/* 送信確定ボタン */
+.next input[type="submit"] {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	display: inline-block;
+	padding: 10px 20px !important;
+	border-radius: 25px;
+	color: #fff;
+	background-image: linear-gradient(45deg, #ffc107 0%, #ff8b22 100%);
+	transition: 0.4s;
+	font-size: 15px;
+}
+
+.next input[type="submit"]:hover,
+.send input[type="submit"]:hover {
+	background-image: linear-gradient(45deg, #ffc107 0%, #f76a35 100%);
+}
+
+/* 送信 */
+.send input[type="submit"] {
+	width: 100%;
+	color: #fff;
+	background-image: linear-gradient(45deg, #ffc107 0%, #ff8b22 100%);
+	transition: 0.4s;
+	font-size: 15px;
+	border-radius: 5px;
+	text-align: center;
+	padding: 10px 0px;
 }

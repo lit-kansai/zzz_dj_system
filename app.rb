@@ -6,6 +6,7 @@ require 'open-uri'
 require "sinatra/json"
 require 'net/http'
 require "json"
+require 'uri'
 
 def search_music(query) 
   uri = URI("https://itunes.apple.com/search")
@@ -15,46 +16,77 @@ def search_music(query)
   return returned_json["results"]
 end
 
+def search_add_music(query)
+  uri = URI("https://itunes.apple.com/lookup")
+  uri.query = URI.encode_www_form({ id: query, country: "JP" })
+  res = Net::HTTP.get_response(uri)
+  returned_json = JSON.parse(res.body)
+  return returned_json["results"]
+end
+
+def add_list_init(add_list)
+  if add_list == nil || add_list == ""
+    add_list = []
+  else
+    add_list = add_list.split('-')
+  end
+end
+
 get '/' do
-  
+  'Hello'
 end
 
 get '/:team_id' do
-  trackId = params[:trackId]
-  if trackId
-    addId = params[:addId]
-    if addId == nil
-      addId = " "
-    end
-    addId = addId + "," + trackId
-    url = request.path + "?q=" + params[:q] + "&addId=" + addId
-    redirect url.to_s
-  else
-    query = params[:q]
-    @musics = search_music(query)
-    erb :index
-  end
-end
-
-get '/:team_id/message' do
-  '検索ID'
-end
-
-get '/:team_id/complete' do
-  '送信後に送られる画面'
-end
-
-post '/:team_id' do
   team_id = params[:team_id]
-  q = params[:q]
-  addId = params[:addId].split(',')
-  trackId = params[:trackId]
-  if addId == nil || addId == ""
-    addId = []
-  end
-  if !addId.include?(trackId)
-    addId.append(params[:trackId])
-  end
-  url = "/" + team_id + "?q=" + q + "&addId=" + addId.join(",")
-  redirect url.to_s
+  query = params[:q]
+  add_list = add_list_init(params[:add_list])
+  @add_musics = search_add_music(add_list.join(","))
+  @musics = search_music(query)
+  erb :index
 end
+
+get '/:team_id/confirm' do
+  add_list = add_list_init(params[:add_list])
+  @add_musics = search_add_music(add_list.join(","))
+  erb :confirm
+end
+
+# 曲の追加
+post '/music/temp/add' do
+  trackId = params[:trackId]
+  add_list = add_list_init(params[:add_list])
+  if !add_list.include?(trackId)
+    add_list.append(trackId)
+  end
+  uri = URI(params[:team_id])
+  uri.query = URI.encode_www_form({ q: params[:q].to_s, add_list: add_list.join("-") })
+  redirect uri
+end
+
+# 曲の削除
+post '/music/temp/delete' do
+  trackId = params[:trackId]
+  add_list = add_list_init(params[:add_list])
+  if add_list.include?(trackId)
+    add_list.delete(trackId)
+  end
+  uri = URI(params[:team_id])
+  uri.query = URI.encode_www_form({ q: params[:q].to_s, add_list: add_list.join("-") })
+  redirect uri
+end
+
+# 確認画面へ
+post '/confirm' do
+  url = "/" + params[:team_id] + "/confirm"
+  uri = URI(url)
+  uri.query = URI.encode_www_form({ add_list: params[:add_list].to_s })
+  redirect uri
+end
+
+# 登録
+post '/submit' do
+  team_id = params[:team_id]
+  add_list = add_list_init(params[:add_list])
+  name = params[:radio_name]
+  comment = params[:comment]
+end   
