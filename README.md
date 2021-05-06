@@ -33,6 +33,7 @@ $ docker-compose up --build
 
 ## Future
 
+- URL NAME重ならないようにする
 - 管理者ページの権限
 - 完了しましたみたいな画面つけたい
 - 非同期処理
