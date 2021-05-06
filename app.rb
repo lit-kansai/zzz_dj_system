@@ -42,9 +42,27 @@ def team_check(team_id)
   end
 end
 
+# チーム一覧を表示
+get '/admin/all' do
+  erb :admin_all
+end
+
 # 新しくチームを作成する
-get '/team/create' do
+get '/admin/team_create' do
   erb :admin_create
+end
+
+# チームを管理する（リクエスト済の曲を検索する）
+get '/admin/:team_id' do
+  team_id = params[:team_id]
+  team_check(team_id)
+  @team = Team.find_by(url_name: team_id)
+  messages = Team.find_by(url_name: team_id).messages
+  @team_messages = messages.reject{ |doc| doc.content.blank? }
+  track_id_list = messages.map { |message| message.musics.map{ |doc| doc['track'] } }
+  @team_musics = search_music_by_id(track_id_list.flatten.uniq)
+  @team_music_names = track_id_list.flatten.map{ |id| p Music.find_by(track: id).message['name'] }
+  erb :admin_view
 end
 
 # メンバーが曲をリクエストする（検索）
@@ -67,19 +85,6 @@ get '/:team_id/confirm' do
   add_list = add_list_init(params[:add_list])
   @add_musics = search_music_by_id(add_list)
   erb :confirm
-end
-
-# チームを管理する（リクエスト済の曲を検索する）
-get '/:team_id/admin' do
-  team_id = params[:team_id]
-  team_check(team_id)
-  @team = Team.find_by(url_name: team_id)
-  messages = Team.find_by(url_name: team_id).messages
-  @team_messages = messages.reject{ |doc| doc.content.blank? }
-  track_id_list = messages.map { |message| message.musics.map{ |doc| doc['track'] } }
-  @team_musics = search_music_by_id(track_id_list.flatten.uniq)
-  @team_music_names = track_id_list.flatten.map{ |id| p Music.find_by(track: id).message['name'] }
-  erb :admin_view
 end
 
 # 曲の追加処理（メンバーによる一時追加）
@@ -126,7 +131,7 @@ post '/submit' do
 end
 
 # チームを作る
-post '/team/create' do
+post '/admin/team_create' do
   Team.create(
     url_name: params[:url_name],
     mentor: params[:mentor],
