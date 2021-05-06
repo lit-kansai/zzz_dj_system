@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+</head>
+
+<body>
+  <header>
+    <h1>DJ List</h1>
+    <p>チーム一覧</p>
+  </header>
+
+  <section>
+    <h2>チーム一覧</h2>
+    <table>
+      <tr class="head">
+        <th><p>URL NAME</p></th>
+        <th class="phone_off"><p>Mentor</p></th>
+        <th class="phone_off"><p>Description</p></th>
+        <th><p>Link</p></th>
+      </tr>
+      <% if !@teams.empty? %>
+        <% @teams.each_with_index do |team| %>
+          <tr class="content">
+            <td>
+              <p><%= team["url_name"] %><br class="phone_on"><span class="phone_on"><%= team["mentor"] %>/<%= team["description"] %></span></p>
+            </td>
+            <td class="phone_off"><p><%= team["mentor"] %></p></td>
+            <td class="phone_off"><p><%= team["description"] %></p></td>
+            <td><a href="/<%= team["url_name"] %>" target="_blank"><p>Link</p></a></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </section>
+</body>
+</html>

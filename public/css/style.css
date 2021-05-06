@@ -199,7 +199,7 @@ table a p {
 	table .phone_off {
 		display: none;
 	}
-	table .song span {
+	table p span {
 		margin-top: 2px;
 		color: rgba(255, 255, 255, 0.55);
 	}

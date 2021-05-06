@@ -44,6 +44,7 @@ end
 
 # チーム一覧を表示
 get '/admin/all' do
+  @teams = Team.all
   erb :admin_all
 end
 
