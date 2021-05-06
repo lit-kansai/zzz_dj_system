@@ -43,13 +43,13 @@ def team_check(team_id)
 end
 
 # チーム一覧を表示
-get '/admin/team/all' do
+get '/admin/all' do
   @teams = Team.all
   erb :admin_all
 end
 
 # 新しくチームを作成する
-get '/admin/team/edit/:team_id?' do
+get '/admin/edit/:team_id?' do
   @team = Team.find_by(url_name: params[:team_id])
   erb :admin_edit
 end
