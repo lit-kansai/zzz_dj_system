@@ -87,6 +87,11 @@ header h1 {
 	color: #fff;
 }
 
+/* admin */
+.admin input[type="text"] {
+	margin-bottom: 15px;
+}
+
 /* 追加済の曲 */
 .add_list {
 	display: flex;

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
-  <title>Document</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <title>DJ List</title>
+  <link rel="stylesheet" href="https://dj-system.herokuapp.com/css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 </head>
 
@@ -21,7 +21,8 @@
         <th><p>URL NAME</p></th>
         <th class="phone_off"><p>Mentor</p></th>
         <th class="phone_off"><p>Description</p></th>
-        <th><p>Link</p></th>
+        <th><p>View Link</p></th>
+        <th><p>Request Link</p></th>
       </tr>
       <% if !@teams.empty? %>
         <% @teams.each_with_index do |team| %>
@@ -31,6 +32,7 @@
             </td>
             <td class="phone_off"><p><%= team["mentor"] %></p></td>
             <td class="phone_off"><p><%= team["description"] %></p></td>
+            <td><a href="/admin/<%= team["url_name"] %>"><p>Link</p></a></td>
             <td><a href="/<%= team["url_name"] %>" target="_blank"><p>Link</p></a></td>
           </tr>
         <% end %>

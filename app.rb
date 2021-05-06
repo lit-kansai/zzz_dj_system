@@ -43,14 +43,15 @@ def team_check(team_id)
 end
 
 # チーム一覧を表示
-get '/admin/all' do
+get '/admin/team/all' do
   @teams = Team.all
   erb :admin_all
 end
 
 # 新しくチームを作成する
-get '/admin/team_create' do
-  erb :admin_create
+get '/admin/team/edit/:team_id?' do
+  @team = Team.find_by(url_name: params[:team_id])
+  erb :admin_edit
 end
 
 # チームを管理する（リクエスト済の曲を検索する）
@@ -132,13 +133,22 @@ post '/submit' do
 end
 
 # チームを作る
-post '/admin/team_create' do
-  Team.create(
-    url_name: params[:url_name],
-    mentor: params[:mentor],
-    description: params[:description]
-  )
-  redirect '/'
+post '/admin/edit/:id?' do
+  if params[:id] == nil
+    Team.create(
+      url_name: params[:url_name],
+      mentor: params[:mentor],
+      description: params[:description]
+    )
+  else
+    team = Team.find(params[:id])
+    team.update(
+      url_name: params[:url_name],
+      mentor: params[:mentor],
+      description: params[:description]
+    )
+  end
+  redirect '/' + params[:url_name]
 end
 
 # 404

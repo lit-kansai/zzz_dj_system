@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+  <title>DJ Admin</title>
+  <link rel="stylesheet" href="https://dj-system.herokuapp.com/css/style.css">
+</head>
+
+<body>
+  <header>
+    <h1>DJ Admin</h1>
+    <p>チーム情報管理</p>
+  </header>
+
+  <section class="send">
+    <form method="post" action="/admin/edit/<%= @team.id if !@team.nil? %>">
+      <label name="url_name">URL NAME</label>
+      <input type="text" name="url_name" value="<%= @team.url_name if !@team.nil? %>" placeholder="例: 17-sun-b-osaka-gassi">
+      <label name="mentor">Mentor</label>
+      <input type="text" name="mentor" value="<%= @team.mentor if !@team.nil? %>" placeholder="例: がっしー">
+      <label name="description">Description</label>
+      <input type="text" name="description" value="<%= @team.description if !@team.nil? %>" placeholder="例: 大阪日B がっしー班">
+      <input type="hidden" name="team" value="<%= @team %>">
+      <input type="submit">
+    </form>
+  </section>
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
-  <title>Document</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <title>DJ <%= @team['mentor'] %></title>
+  <link rel="stylesheet" href="https://dj-system.herokuapp.com/css/style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 </head>
 
@@ -58,6 +58,10 @@
         <% end %>
       <% end %>
     </table>
+  </section>
+
+  <section>
+    <a href="/admin/team/edit/<%= @team.url_name %>" style="color: white;">チーム情報編集</a>
   </section>
 </body>
 </html>
