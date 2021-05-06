@@ -148,7 +148,7 @@ post '/admin/edit/:id?' do
       description: params[:description]
     )
   end
-  redirect '/' + params[:url_name]
+  redirect '/admin/' + params[:url_name]
 end
 
 # 404
