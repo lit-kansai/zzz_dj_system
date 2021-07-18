@@ -7,15 +7,16 @@ require "sinatra/json"
 require 'net/http'
 require "json"
 require 'uri'
+require 'dotenv'
 require "./models"
-require 'logger'
 
 require "./src/apple_music"
 require "./src/team"
+require "./src/spotify"
 
-logger = Logger.new(STDOUT)
-apple_music = AppleMusicManager.new
-team_manager = TeamManager.new
+apple_music = AppleMusicManager.new()
+spotify = SpotifyManager.new()
+team_manager = TeamManager.new()
 
 def add_list_init(add_list)
   if add_list == nil || add_list == ""
@@ -23,6 +24,11 @@ def add_list_init(add_list)
   else
     add_list = add_list.split('-')
   end
+end
+
+get '/spotify_sample' do
+  test = spotify.search()
+  return test.to_s
 end
 
 # 存在しない曲を削除する
@@ -121,7 +127,9 @@ post '/submit' do
   team = Team.find_by(url_name: params[:team_id])
   message = team.messages.create(name: params[:radio_name],content: params[:message])
   add_list.map do |track_id|
-    message.musics.create(track: track_id)
+    if apple_music.check_music(track_id)
+      message.musics.create(track: track_id)
+    end
   end
   redirect params[:team_id]
 end
@@ -147,6 +155,5 @@ end
 
 # 404
 not_found do
-  logger.info(test.length)
   erb :not_found
 end

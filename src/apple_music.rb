@@ -3,7 +3,7 @@
 # ----------------------
 
 class AppleMusicManager
-# 音楽を検索する
+  # 音楽を検索する
   def search_music(query) 
     uri = URI("https://itunes.apple.com/search")
     uri.query = URI.encode_www_form({ term: query, country: "JP", media: "music", limit: 15 })
