@@ -28,17 +28,21 @@
       </tr>
       <% if !@team_musics.empty? %>
         <% @team_musics.each_with_index do |music, index| %>
-          <tr class="content">
-            <td class="song">
-              <img src="<%= music["artworkUrl100"] %>">
-              <p><%= music["trackName"] %><br class="phone_on"><span class="phone_on"><%= music["artistName"] %></span></p>
-            </td>
-            <td class="phone_off"><p><%= music["artistName"] %></p></td>
-            <td class="phone_off"><p><%= music["collectionName"] %></p></td>
-            <td class="phone_off"><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
-            <td class="phone_off"><p><%= @team_music_names[index] %></p></td>
-            <td><a href="<%= music["trackViewUrl"] %>" target="_blank"><p>Link</p></a></td>
-          </tr>
+          <% begin %>
+            <tr class="content">
+              <td class="song">
+                <img src="<%= music["artworkUrl100"] %>">
+                <p><%= music["trackName"] %><br class="phone_on"><span class="phone_on"><%= music["artistName"] %></span></p>
+              </td>
+              <td class="phone_off"><p><%= music["artistName"] %></p></td>
+              <td class="phone_off"><p><%= music["collectionName"] %></p></td>
+              <td class="phone_off"><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
+              <td class="phone_off"><p><%= @team_music_names[index] %></p></td>
+              <td><a href="<%= music["trackViewUrl"] %>" target="_blank"><p>Link</p></a></td>
+            </tr>
+          <% rescue %>
+            <p>Error</p>
+          <% end %>
         <% end %>
       <% end %>
     </table>
