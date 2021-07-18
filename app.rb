@@ -8,24 +8,14 @@ require 'net/http'
 require "json"
 require 'uri'
 require "./models"
+require 'logger'
 
-# 音楽を検索する
-def search_music(query) 
-  uri = URI("https://itunes.apple.com/search")
-  uri.query = URI.encode_www_form({ term: query, country: "JP", media: "music", limit: 15 })
-  res = Net::HTTP.get_response(uri)
-  returned_json = JSON.parse(res.body)
-  return returned_json["results"]
-end
+require "./src/apple_music"
+require "./src/team"
 
-# IDがわかっている音楽を検索する
-def search_music_by_id(query)
-  uri = URI("https://itunes.apple.com/lookup")
-  uri.query = URI.encode_www_form({ id: query.join(','), country: "JP" })
-  res = Net::HTTP.get_response(uri)
-  returned_json = JSON.parse(res.body)
-  return returned_json["results"]
-end
+logger = Logger.new(STDOUT)
+apple_music = AppleMusicManager.new
+team_manager = TeamManager.new
 
 def add_list_init(add_list)
   if add_list == nil || add_list == ""
@@ -35,11 +25,15 @@ def add_list_init(add_list)
   end
 end
 
-# チームが存在するかを確認する
-def team_check(team_id)
-  if !Team.find_by(url_name: team_id)
-    redirect not_found
+# 存在しない曲を削除する
+get '/clear' do
+  music_all = Music.all
+  for music in music_all do
+    if !apple_music.check_music(music.track)
+      music.delete()
+    end
   end
+  return json({ status: 'success', code: 200})
 end
 
 # チーム一覧を表示
@@ -57,12 +51,12 @@ end
 # チームを管理する（リクエスト済の曲を検索する）
 get '/admin/:team_id' do
   team_id = params[:team_id]
-  team_check(team_id)
+  team_manager.team_check(team_id)
   @team = Team.find_by(url_name: team_id)
   messages = Team.find_by(url_name: team_id).messages
   @team_messages = messages.reject{ |doc| doc.content.blank? }
   track_id_list = messages.map { |message| message.musics.map{ |doc| doc['track'] } }
-  @team_musics = search_music_by_id(track_id_list.flatten.uniq)
+  @team_musics = apple_music.search_music_by_id(track_id_list.flatten.uniq)
   @team_music_names = track_id_list.flatten.map{ |id| p Music.find_by(track: id).message['name'] }
   erb :admin_view
 end
@@ -70,22 +64,22 @@ end
 # メンバーが曲をリクエストする（検索）
 get '/:team_id' do
   team_id = params[:team_id]
-  team_check(team_id)
+  team_manager.team_check(team_id)
   @team = Team.find_by(url_name: team_id)
   query = params[:q]
   add_list = add_list_init(params[:add_list])
-  @add_musics = search_music_by_id(add_list)
-  @musics = search_music(query)
+  @add_musics = apple_music.search_music_by_id(add_list)
+  @musics = apple_music.search_music(query)
   erb :index
 end
 
 # メンバーが曲をリクエストする（曲の確認 & ラジオネーム & メッセージ）
 get '/:team_id/confirm' do
   team_id = params[:team_id]
-  team_check(team_id)
+  team_manager.team_check(team_id)
   @team = Team.find_by(url_name: team_id)
   add_list = add_list_init(params[:add_list])
-  @add_musics = search_music_by_id(add_list)
+  @add_musics = apple_music.search_music_by_id(add_list)
   erb :confirm
 end
 
@@ -153,5 +147,6 @@ end
 
 # 404
 not_found do
+  logger.info(test.length)
   erb :not_found
 end
