@@ -18,15 +18,30 @@ apple_music = AppleMusicManager.new()
 # spotify = SpotifyManager.new()
 team_manager = TeamManager.new()
 
-get '/sample' do
-  return apple_music.search_music_by_id([12345678901,123456789,112345678,123456789,112345678]).to_s
+get '/sample/:id' do
+  return check_message(params[:id]).to_s
 end
 
 def add_list_init(add_list)
-  if add_list == nil || add_list == ""
+  if add_list.blank? || add_list == ""
     add_list = []
   else
     add_list = add_list.split('-')
+  end
+end
+
+# メッセージを管理する
+def check_message(message)
+  ng_word = ['test', 'facebook!!', '${return_var}']
+  if message.blank? || message =~ /\A[0-9]+\z/
+    return false
+  else
+    ng_word.each do |word|
+      if message.include?(word)
+        return false
+      end
+    end
+    return true
   end
 end
 
@@ -63,8 +78,8 @@ get '/admin/:team_id' do
   team_id = params[:team_id]
   team_manager.team_check(team_id)
   @team = Team.find_by(url_name: team_id)
-  messages = Team.find_by(url_name: team_id).messages
-  @team_messages = messages.reject{ |doc| doc.content.blank? }
+  messages = @team.messages
+  @team_messages = messages.reject{ |doc| !check_message(doc.name) || !check_message(doc.content) }
   track_id_list = messages.map { |message| message.musics.map{ |doc| doc['track'] } }
   @team_musics = apple_music.search_music_by_id(track_id_list.flatten.uniq)
   @team_music_names = track_id_list.flatten.map{ |id| p Music.find_by(track: id).message['name'] }
