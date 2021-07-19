@@ -8,6 +8,10 @@ class AdminRouter < Base
     @dj_manager = DJManager.new
   end
 
+  get '/sample' do
+    return @dj_manager.search_music(1, 'Test').to_s
+  end
+
   # チーム一覧を表示
   get '/admin/all' do
     @teams = Team.all
@@ -51,7 +55,7 @@ class AdminRouter < Base
         url_name: params[:url_name],
         mentor: params[:mentor],
         description: params[:description],
-        plyer: params[:plyer]
+        player: params[:player]
       )
     else
       team = Team.find(params[:id])
@@ -59,7 +63,7 @@ class AdminRouter < Base
         url_name: params[:url_name],
         mentor: params[:mentor],
         description: params[:description],
-        plyer: params[:plyer]
+        player: params[:player]
       )
     end
     redirect '/admin/' + params[:url_name]

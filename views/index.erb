@@ -57,34 +57,38 @@
       </tr>
       <% if !@musics.empty? %>
         <% @musics.each do |music| %>
-          <tr class="content">
-            <td class="song">
-              <img src="<%= music["artworkUrl100"] %>">
-              <p><%= music["trackName"] %><br class="phone_on"><span class="phone_on"><%= music["artistName"] %></span></p>
-            </td>
-            <td class="phone_off"><p><%= music["artistName"] %></p></td>
-            <td class="phone_off"><p><%= music["collectionName"] %></p></td>
-            <td class="phone_off"><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
-            <td>
-              <% if params[:add_list] != nil && params[:add_list].include?(music["trackId"].to_s) %>
-                <form method="post" action="/music/temp/delete" >
-                  <input type="hidden" name="team_id" value=<%= params[:team_id] %>>
-                  <input type="hidden" name="q" value=<%= params[:q] %>>
-                  <input type="hidden" name="trackId" value=<%= music["trackId"] %>>
-                  <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
-                  <input type="submit" value="&#xf00c" class="fas">
-                </form>
-              <% else %>
-                <form method="post" action="/music/temp/add" >
-                  <input type="hidden" name="team_id" value=<%= params[:team_id]  %>>
-                  <input type="hidden" name="q" value=<%= params[:q] %>>
-                  <input type="hidden" name="trackId" value=<%= music["trackId"] %>>
-                  <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
-                  <input type="submit" value="&#xf067" class="fas">
-                </form>
-              <% end %>
-            </td>
-          </tr>
+          <% begin %>
+            <tr class="content">
+              <td class="song">
+                <img src="<%= music["artworkUrl100"] %>">
+                <p><%= music["trackName"] %><br class="phone_on"><span class="phone_on"><%= music["artistName"] %></span></p>
+              </td>
+              <td class="phone_off"><p><%= music["artistName"] %></p></td>
+              <td class="phone_off"><p><%= music["collectionName"] %></p></td>
+              <td class="phone_off"><p><%= music["trackTimeMillis"] / 60000 %>:<%= sprintf("%02d", music["trackTimeMillis"] % 60000 / 1000 ) %></p></td>
+              <td>
+                <% if params[:add_list] != nil && params[:add_list].include?(music["trackId"].to_s) %>
+                  <form method="post" action="/music/temp/delete" >
+                    <input type="hidden" name="team_id" value=<%= params[:team_id] %>>
+                    <input type="hidden" name="q" value=<%= params[:q] %>>
+                    <input type="hidden" name="trackId" value=<%= music["trackId"] %>>
+                    <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
+                    <input type="submit" value="&#xf00c" class="fas">
+                  </form>
+                <% else %>
+                  <form method="post" action="/music/temp/add" >
+                    <input type="hidden" name="team_id" value=<%= params[:team_id]  %>>
+                    <input type="hidden" name="q" value=<%= params[:q] %>>
+                    <input type="hidden" name="trackId" value=<%= music["trackId"] %>>
+                    <input type="hidden" name="add_list" value=<%= params[:add_list] %>>
+                    <input type="submit" value="&#xf067" class="fas">
+                  </form>
+                <% end %>
+              </td>
+            </tr>
+          <% rescue %>
+            <p>Error</p>
+          <% end %>
         <% end %>
       <% end %>
     </table>

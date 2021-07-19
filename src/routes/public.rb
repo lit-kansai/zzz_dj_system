@@ -17,6 +17,7 @@ class PublicRouter < Base
     add_list = add_list_init(params[:add_list])
     @add_musics = @dj_manager.search_music_by_id(@team.player, add_list)
     @musics = @dj_manager.search_music(@team.player, query)
+    # return @musics
     erb :index
   end
 

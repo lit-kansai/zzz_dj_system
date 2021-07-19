@@ -4,6 +4,7 @@
 class DJManager
   def initialize
     @apple_music = AppleMusicManager.new
+    @spotify = SpotifyManager.new
   end
   # チームが存在するかを確認する
   def team_check(team_id)
@@ -25,16 +26,19 @@ class DJManager
     if player_id == 0
       return @apple_music.search_music_by_id(track_id_list.flatten.uniq)
     else
-      return []
+      return @spotify.search_music_by_id(track_id_list.flatten.uniq)
     end
   end
 
   # キーワードから曲を検索する
   def search_music(player_id, query)
+    if query.nil?
+      return []
+    end
     if player_id == 0
       return @apple_music.search_music(query)
     else
-      return []
+      return @spotify.search_music(query)
     end
   end
 
