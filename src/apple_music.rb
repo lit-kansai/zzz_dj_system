@@ -4,7 +4,7 @@
 
 class AppleMusicManager
   # 音楽を検索する
-  def search_music(query) 
+  def search_music(query)
     uri = URI("https://itunes.apple.com/search")
     uri.query = URI.encode_www_form({ term: query, country: "JP", media: "music", limit: 15 })
     res = Net::HTTP.get_response(uri)
@@ -12,14 +12,17 @@ class AppleMusicManager
     return returned_json["results"]
   end
 
-  # IDがわかっている音楽を検索する
-  # TODO: 160を超える場合は2つに分けて処理する
+  # IDがわかっている音楽を検索する(160を超えるリクエストは拒否されるのでそれ以下で回す)
   def search_music_by_id(query)
-    uri = URI("https://itunes.apple.com/lookup")
-    uri.query = URI.encode_www_form({ id: query.join(','), country: "JP" })
-    res = Net::HTTP.get_response(uri)
-    returned_json = JSON.parse(res.body)
-    return returned_json["results"]
+    return_data = []
+    query.each_slice(150) do |i|
+      uri = URI("https://itunes.apple.com/lookup")
+      uri.query = URI.encode_www_form({ id: (i.length >= 1 ? i.join(',') : i), country: "JP" })
+      res = Net::HTTP.get_response(uri)
+      returned_json = JSON.parse(res.body)
+      return_data.concat(returned_json["results"])
+    end
+    return return_data
   end
 
   # 曲が存在するかを確認する

@@ -18,6 +18,10 @@ apple_music = AppleMusicManager.new()
 spotify = SpotifyManager.new()
 team_manager = TeamManager.new()
 
+get '/sample' do
+  return apple_music.search_music_by_id([12345678901,123456789,112345678,123456789,112345678]).to_s
+end
+
 def add_list_init(add_list)
   if add_list == nil || add_list == ""
     add_list = []
