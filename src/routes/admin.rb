@@ -8,10 +8,6 @@ class AdminRouter < Base
     @dj_manager = DJManager.new
   end
 
-  get '/sample' do
-    return @dj_manager.search_music(1, 'Test').to_s
-  end
-
   # チーム一覧を表示
   get '/admin/all' do
     @teams = Team.all
