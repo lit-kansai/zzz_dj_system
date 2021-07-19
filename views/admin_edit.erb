@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
   <title>DJ Admin</title>
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" href="https://dj-system.herokuapp.com/favicon.ico" />
   <link rel="stylesheet" href="https://dj-system.herokuapp.com/css/style.css">
 </head>
 
@@ -22,6 +22,11 @@
       <input type="text" name="mentor" value="<%= @team.mentor if !@team.nil? %>" placeholder="例: がっしー">
       <label name="description">Description</label>
       <input type="text" name="description" value="<%= @team.description if !@team.nil? %>" placeholder="例: 大阪日B がっしー班">
+      <label name="player">Player</label>
+      <select name="player" required>
+        <option value="0" <% if @team.player == 0 %>selected<% end %>>Apple Music</option>
+        <option value="1" <% if @team.player == 1 %>selected<% end %>>Spotify</option>
+      </select>
       <input type="hidden" name="team" value="<%= @team %>">
       <input type="submit">
     </form>

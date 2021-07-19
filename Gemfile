@@ -1,19 +1,18 @@
 ruby '2.6.2'
 source "https://rubygems.org"
 
+gem 'activerecord' ,  '5.2.3'
+gem 'bcrypt'
+gem 'dotenv'
 gem 'rake'
 gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'activerecord' ,  '5.2.3'
 gem 'sinatra-activerecord'
-# gem 'cloudinary'
-gem 'dotenv'
-gem 'bcrypt'
+gem 'sinatra-contrib'
 gem 'rspotify'
 
 group :development do
-  gem 'sqlite3', '~>1.4.1'
   gem 'debase'
+  gem 'sqlite3', '~>1.4.1'
   gem 'pry'
   gem 'rubocop'
   gem 'rubocop-performance'

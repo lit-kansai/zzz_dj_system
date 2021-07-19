@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_04_071423) do
+ActiveRecord::Schema.define(version: 2021_07_19_074234) do
 
   create_table "messages", force: :cascade do |t|
     t.string "name"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2021_05_04_071423) do
   end
 
   create_table "musics", force: :cascade do |t|
-    t.integer "track"
+    t.string "track"
     t.integer "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2021_05_04_071423) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "player", default: 0, null: false
   end
 
 end
