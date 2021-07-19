@@ -15,7 +15,7 @@ require "./src/team"
 require "./src/spotify"
 
 apple_music = AppleMusicManager.new()
-spotify = SpotifyManager.new()
+# spotify = SpotifyManager.new()
 team_manager = TeamManager.new()
 
 get '/sample' do
