@@ -59,7 +59,7 @@ class AdminRouter < Base
         url_name: params[:url_name],
         mentor: params[:mentor],
         description: params[:description],
-        player: params[:player]
+        player: team.player
       )
     end
     redirect '/admin/' + params[:url_name]

@@ -7,7 +7,7 @@ class SpotifyManager
 
   def initialize()
     Dotenv.load
-    # RSpotify.authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_SECRET_ID'])
+    RSpotify.authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_SECRET_ID'])
   end
 
   # 音楽を検索する

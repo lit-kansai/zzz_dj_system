@@ -23,7 +23,7 @@
       <label name="description">Description</label>
       <input type="text" name="description" value="<%= @team.description if !@team.nil? %>" placeholder="例: 大阪日B がっしー班">
       <label name="player">Player</label>
-      <select name="player" required>
+      <select name="player" required <% if !@team.nil? %>disabled<% end %> >
         <option value="0" <% if !@team.nil? && @team.player == 0 %>selected<% end %>>Apple Music</option>
         <option value="1" <% if !@team.nil? && @team.player == 1 %>selected<% end %>>Spotify</option>
       </select>
