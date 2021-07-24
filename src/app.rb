@@ -21,3 +21,7 @@ require './src/routes/admin'
 
 use AdminRouter
 use PublicRouter
+
+not_found do
+  erb :not_found
+end

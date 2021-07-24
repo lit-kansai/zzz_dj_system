@@ -6,10 +6,11 @@ class DJManager
     @apple_music = AppleMusicManager.new
     @spotify = SpotifyManager.new
   end
+
   # チームが存在するかを確認する
   def team_check(team_id)
     if !Team.find_by(url_name: team_id)
-      redirect not_found
+      redirect '/'
     end
   end
 

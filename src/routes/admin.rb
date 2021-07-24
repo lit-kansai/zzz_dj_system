@@ -10,18 +10,21 @@ class AdminRouter < Base
 
   # チーム一覧を表示
   get '/admin/all' do
+    protect!
     @teams = Team.all
     erb :admin_all
   end
 
   # 新しくチームを作成する
   get '/admin/edit/:team_id?' do
+    protect!
     @team = Team.find_by(url_name: params[:team_id])
     erb :admin_edit
   end
 
   # チームを管理する（リクエスト済の曲を検索する）
   get '/admin/:team_id' do
+    protect!
     team_id = params[:team_id]
     @dj_manager.team_check(team_id)
     @team = Team.find_by(url_name: team_id)
@@ -35,6 +38,7 @@ class AdminRouter < Base
 
   # 存在しない曲を削除する(Apple MusicかSpotifyか見分ける必要があるので一旦フリーズ)
   # get '/admin/clear' do
+    # protect!
     # music_all = Music.all
     # for music in music_all do
     #   if !@apple_music.check_music(music.track)
@@ -46,6 +50,7 @@ class AdminRouter < Base
 
   # チームを作る
   post '/admin/edit/:id?' do
+    protect!
     if params[:id] == nil
       Team.create(
         url_name: params[:url_name],
