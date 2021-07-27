@@ -9,9 +9,10 @@ class DJManager
 
   # チームが存在するかを確認する
   def team_check(team_id)
-    if !Team.find_by(url_name: team_id)
-      redirect '/'
+    if Team.find_by(url_name: team_id)
+      return true
     end
+    return false
   end
 
   def player_to_string(id)

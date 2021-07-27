@@ -34,7 +34,7 @@
             </td>
             <td class="phone_off"><p><%= team["mentor"] %></p></td>
             <td class="phone_off"><p><%= team["description"] %></p></td>
-            <td class="phont_off"><p><%= @dj_manager.player_to_string(team.player) %></p></td>
+            <td class="phont_off"><p><%= @@dj_manager.player_to_string(team.player) %></p></td>
             <td><a href="/admin/<%= team["url_name"] %>"><p>Link</p></a></td>
             <td><a href="/<%= team["url_name"] %>" target="_blank"><p>Link</p></a></td>
           </tr>

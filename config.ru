@@ -1,5 +1,5 @@
 require 'bundler'
 Bundler.require
 
-require './src/app'
+require './app'
 run Sinatra::Application
