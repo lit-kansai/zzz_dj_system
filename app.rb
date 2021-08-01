@@ -53,22 +53,22 @@ end
 # メンバーが曲をリクエストする（検索）
 get '/:team_id' do
   team_id = params[:team_id]
-  redirect not_found if !@dj_manager.team_check(team_id)
+  redirect not_found if !@@dj_manager.team_check(team_id)
   @team = Team.find_by(url_name: team_id)
   query = params[:q]
   add_list = add_list_init(params[:add_list])
-  @add_musics = @dj_manager.search_music_by_id(@team.player, add_list)
-  @musics = @dj_manager.search_music(@team.player, query)
+  @add_musics = @@dj_manager.search_music_by_id(@team.player, add_list)
+  @musics = @@dj_manager.search_music(@team.player, query)
   erb :index
 end
 
 # メンバーが曲をリクエストする（曲の確認 & ラジオネーム & メッセージ）
 get '/:team_id/confirm' do
   team_id = params[:team_id]
-  @dj_manager.team_check(team_id)
+  redirect not_found if !@@dj_manager.team_check(team_id)
   @team = Team.find_by(url_name: team_id)
   add_list = add_list_init(params[:add_list])
-  @add_musics = @dj_manager.search_music_by_id(@team.player, add_list)
+  @add_musics = @@dj_manager.search_music_by_id(@team.player, add_list)
   erb :confirm
 end
 
@@ -110,7 +110,7 @@ post '/submit' do
   team = Team.find_by(url_name: params[:team_id])
   message = team.messages.create(name: params[:radio_name],content: params[:message])
   add_list.map do |track_id|
-    if @dj_manager.check_music(team.player, track_id)
+    if @@dj_manager.check_music(team.player, track_id)
       message.musics.create(track: track_id)
     end
   end
