@@ -1,24 +1,5 @@
 <!doctype html>
 <html>
-
-<head>
-    <title>Example of the Implicit Grant flow with Spotify</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <style type="text/css">
-        #login,
-        #loggedin {
-            display: none;
-        }
-
-        .text-overflow {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            width: 500px;
-        }
-    </style>
-</head>
-
 <body>
     <div class="gradation">
         <div class="container">
@@ -139,8 +120,8 @@
 
                 document.getElementById('login-button').addEventListener('click', function () {
 
-                    var client_id = gon.client_id; // Your client id
-                    var redirect_uri = gon.redirect_uri; // Your redirect uri
+                    var client_id = <%= "'" + ENV['SPOTIFY_CLIENT_ID'] + "'"  %>; // Your client id
+                    var redirect_uri = <%= "'" + ENV['SPOTIFY_REDIRECT_URI'] + "'" %>; // Your redirect uri
 
                     var state = generateRandomString(16);
 

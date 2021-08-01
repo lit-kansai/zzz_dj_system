@@ -15,9 +15,12 @@ require "./models"
 require "./util/apple_music"
 require "./util/spotify"
 require "./util/dj_manager"
+require "./util/spotify_user.rb"
 
 Dotenv.load
 @@dj_manager = DJManager.new()
+@@spotify_user = SpotifyUserManager.new()
+@@spotify_user_id = ""
 
 helpers do
   def protect!
@@ -154,6 +157,22 @@ get '/admin/:team_id' do
   @team_musics = @@dj_manager.search_music_by_id(@team.player, track_id_list.flatten.uniq)
   @team_music_names = track_id_list.flatten.map{ |id| Music.find_by(track: id).message['name'] }
   erb :admin_view
+end
+
+# Spotifyにログイン
+get '/admin/spotify/login' do
+  redirect @@spotify_user.login
+end
+
+# 帰ってくるところ
+get '/admin/spotify/callback' do
+  erb :spotify_get_access_token
+end
+
+# access tokenを取得
+post '/admin/spotify/access_token' do
+  @@spotify_user_id = params[:user_id]
+  redirect '/admin/all'
 end
 
 # チームを作る
